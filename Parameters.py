@@ -1,10 +1,10 @@
 
-# List of the parameters in input into the script 'ODEdroso.py'
+# List of the parameters in input into the scripts 'ODEdroso.py' and 'MCMC-ODE-Briere.py'.
 
 import multiprocessing as mp
 
 # Parameters for the least squares fitting
-# Note: MaxEstimations_LeastSq must be multiple of 4
+# Note: MaxEstimations_LeastSq should be multiple of 4
 
 MaxIterations_LeastSq = mp.cpu_count() * 2
 MaxEstimations_LeastSq = mp.cpu_count() * 2
@@ -13,7 +13,7 @@ MaxIterations_GeneticAlgorithm = 2
 # Parameters for the MCMC algorithm (it uses the Ray cluster!)
 
 NumberChains_MCMC = 384
-NumberIterations_PerChain_MCMC = 2000
+NumberIterations_PerChain_MCMC = 20000
 
 # Initial conditions for the LeastSquares-MCMC
 # These initial conditions are determinant for the whole process
