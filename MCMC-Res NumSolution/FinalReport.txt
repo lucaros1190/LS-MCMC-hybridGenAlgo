@@ -1,0 +1,49 @@
+
+	Final report file - Script created by Luca Rossini luca.rossini@unitus.it
+
+	09/01/2023 14:43:14
+
+
+	Least Squares (LSF) step FitResults:
+
+[[Fit Statistics]]
+    # fitting method   = leastsq
+    # function evals   = 103
+    # data points      = 236
+    # variables        = 12
+    chi-square         = 3574.90403
+    reduced chi-square = 15.9593930
+    Akaike info crit   = 665.415386
+    Bayesian info crit = 706.981368
+##  Warning: uncertainties could not be estimated:
+    T_M_EP:   at initial value
+    T_M_EP:   at boundary
+    T_M_PA:   at initial value
+    T_M_PA:   at boundary
+    a_Sur:    at initial value
+    a_Sur:    at boundary
+    T_M_Sur:  at initial value
+    T_M_Sur:  at boundary
+[[Variables]]
+    a_EP:     1.2392e-04 (init = 0.0001327332)
+    T_L_EP:   1.01275045 (init = 1.000977)
+    T_M_EP:   28.0000000 (init = 28)
+    m_EP:     2.51123381 (init = 2.5)
+    a_PA:     1.0026e-04 (init = 0.0001)
+    T_L_PA:   3.87289881 (init = 3.857918)
+    T_M_PA:   30.0000000 (init = 30)
+    m_PA:     4.01085940 (init = 4.011468)
+    a_Sur:    3.0002e-05 (init = 3e-05)
+    T_L_Sur: -0.99431907 (init = -1.012117)
+    T_M_Sur:  28.0000000 (init = 28)
+    m_Sur:    1.50246375 (init = 1.5)
+
+Best Iteration name is: Iteration_454
+
+Total number of iterations in LSF step: 768
+
+Total time of execution of the LSF step: 13158.239 seconds
+
+Check the LeastSquares-BestValues.csv file for additional information about this first step
+
+Total time of execution of the MCMC step: 80316.465 seconds
