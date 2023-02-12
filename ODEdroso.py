@@ -13,12 +13,12 @@ from Parameters import *
 from lmfit import Minimizer, Parameters, report_fit
 import scipy.integrate as sc
 import scipy.stats as scst
-#import multiprocessing as mp
+import multiprocessing as mp
 
 
 # Define the manager for multiprocessing
 
-#manager = mp.Manager()
+manager = mp.Manager()
 
 
 # Parameter organization - Real parameters!
@@ -98,7 +98,7 @@ def MortFunc(time, MortPar, DailyTemp):
     return MP
 
 
-# Definition of the ODE system - odeint function MORTALITY in all the stages!
+# Definition of the ODE system 
 
 def Sys_ODE_Full(time, y, BriPar_EP, BriPar_PA, BriPar_Sur, FertPar, MortPar, SexRatio, TempArray):
 
@@ -117,32 +117,6 @@ def Sys_ODE_Full(time, y, BriPar_EP, BriPar_PA, BriPar_Sur, FertPar, MortPar, Se
     Anmf = SexRatio * BriFunc(time, BriPar_PA, TempArray) * y[4] - y[6]
 
     Amf = y[6] - BriFunc(time, BriPar_Sur, TempArray) * y[6] - MortFunc(time, MortPar, TempArray) * y[6] - MortFunc(time, MortPar, TempArray) * y[7] - BriFunc(time, BriPar_Sur, TempArray) * y[7]
-
-    Z = np.array([E, L1, L2, L3, P, Am, Anmf, Amf])
-    
-    return Z
-
-
-# Definition of the ODE system - odeint function 
-# MORTALITY ONLY in selected stages based on life tables
-
-def Sys_ODE(time, y, BriPar_EP, BriPar_PA, BriPar_Sur, FertPar, MortPar, SexRatio, TempArray):
-
-    E = FertFunc(time, FertPar, TempArray) * y[7] - BriFunc(time, BriPar_EP, TempArray) * y[0] - BriFunc(time, BriPar_EP, TempArray) * (MortFunc(time, MortPar, TempArray)) * y[0]
-
-    L1 = BriFunc(time, BriPar_EP, TempArray) * y[0] - BriFunc(time, BriPar_EP, TempArray) * y[1] - BriFunc(time, BriPar_EP, TempArray) * (MortFunc(time, MortPar, TempArray)) * y[1]
-
-    L2 = BriFunc(time, BriPar_EP, TempArray) * y[1] - BriFunc(time, BriPar_EP, TempArray) * y[2] - BriFunc(time, BriPar_EP, TempArray) * (MortFunc(time, MortPar, TempArray)) * y[2]
-
-    L3 = BriFunc(time, BriPar_EP, TempArray) * y[2] - BriFunc(time, BriPar_EP, TempArray) * y[3] - BriFunc(time, BriPar_EP, TempArray) * (MortFunc(time, MortPar, TempArray)) * y[3]
-
-    P = BriFunc(time, BriPar_EP, TempArray) * y[3] - BriFunc(time, BriPar_PA, TempArray) * y[4] - BriFunc(time, BriPar_EP, TempArray) * (MortFunc(time, MortPar, TempArray)) * y[4]
-
-    Am = (1 - SexRatio) * BriFunc(time, BriPar_PA, TempArray) * y[4] - BriFunc(time, BriPar_Sur, TempArray) * y[5] - BriFunc(time, BriPar_EP, TempArray) * MortFunc(time, MortPar, TempArray) * y[5]
-
-    Anmf = SexRatio * BriFunc(time, BriPar_PA, TempArray) * y[4] - y[6]
-
-    Amf = y[6] - BriFunc(time, BriPar_Sur, TempArray) * y[6] - BriFunc(time, BriPar_EP, TempArray) * MortFunc(time, MortPar, TempArray) * y[6] - BriFunc(time, BriPar_EP, TempArray) * MortFunc(time, MortPar, TempArray) * y[7] - BriFunc(time, BriPar_Sur, TempArray) * y[7]
 
     Z = np.array([E, L1, L2, L3, P, Am, Anmf, Amf])
     
@@ -255,24 +229,24 @@ def LeastSquaresFit(i, ObservedData, time, InitCond_Theorethical, FertPar_Theore
 
         # Briere Egg-Pupa
 
-    ParToMinimize.add('a_EP', value = NormalGenerator(a_MCMC_EP, i), min = 0.5 * pow(10, -4), max = 3.0 * pow(10, -4))
-    ParToMinimize.add('T_L_EP', value = NormalGenerator(T_L_MCMC_EP, i), min = 1.0, max = 5.0)
-    ParToMinimize.add('T_M_EP', value = NormalGenerator(T_M_MCMC_EP, i), min = 28.0, max = 35.0)
-    ParToMinimize.add('m_EP', value = np.abs(NormalGenerator(m_MCMC_EP, i)), min = 3.0, max = 5.0)
+    ParToMinimize.add('a_EP', value = NormalGenerator(a_MCMC_EP, i))
+    ParToMinimize.add('T_L_EP', value = NormalGenerator(T_L_MCMC_EP, i))
+    ParToMinimize.add('T_M_EP', value = NormalGenerator(T_M_MCMC_EP, i))
+    ParToMinimize.add('m_EP', value = np.abs(NormalGenerator(m_MCMC_EP, i)))
 
         # Briere Pupa-Adult
 
-    ParToMinimize.add('a_PA', value = NormalGenerator(a_MCMC_PA, i), min = 1.5 * pow(10, -4), max = 4.0 * pow(10, -4))
-    ParToMinimize.add('T_L_PA', value = NormalGenerator(T_L_MCMC_PA, i), min = 2.0, max = 6.0)
-    ParToMinimize.add('T_M_PA', value = NormalGenerator(T_M_MCMC_PA, i), min = 30.0, max = 35.0)
-    ParToMinimize.add('m_PA', value = np.abs(NormalGenerator(m_MCMC_PA, i)), min = 3.0, max = 5.0)
+    ParToMinimize.add('a_PA', value = NormalGenerator(a_MCMC_PA, i))
+    ParToMinimize.add('T_L_PA', value = NormalGenerator(T_L_MCMC_PA, i))
+    ParToMinimize.add('T_M_PA', value = NormalGenerator(T_M_MCMC_PA, i))
+    ParToMinimize.add('m_PA', value = np.abs(NormalGenerator(m_MCMC_PA, i)))
 
         # Briere Adult survival
 
-    ParToMinimize.add('a_Sur', value = NormalGenerator(a_MCMC_Sur, i), min = 3.0 * pow(10, -5), max = 1.0 * pow(10, -4))
-    ParToMinimize.add('T_L_Sur', value = NormalGenerator(T_L_MCMC_Sur, i), min = -6.0, max =-1.0)
-    ParToMinimize.add('T_M_Sur', value = NormalGenerator(T_M_MCMC_Sur, i), min = 28.0, max =31.0)
-    ParToMinimize.add('m_Sur', value = np.abs(NormalGenerator(m_MCMC_Sur, i)), min = 1.5, max =3.5)
+    ParToMinimize.add('a_Sur', value = NormalGenerator(a_MCMC_Sur, i))
+    ParToMinimize.add('T_L_Sur', value = NormalGenerator(T_L_MCMC_Sur, i))
+    ParToMinimize.add('T_M_Sur', value = NormalGenerator(T_M_MCMC_Sur, i))
+    ParToMinimize.add('m_Sur', value = np.abs(NormalGenerator(m_MCMC_Sur, i)))
 
     # Fitting - LeastSquares
 
